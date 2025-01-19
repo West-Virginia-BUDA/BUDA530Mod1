@@ -60,6 +60,18 @@ remember.
 
 - Basics log rules
 
+$$
+x=\log\left(\exp(x)\right)
+$$ $$
+\log(x_1x_2)=\log(x_1)+\log(x_2)
+$$ $$
+\log(\frac{x_1}{x_2})=\log(x_1)-\log(x_2)
+$$ $$
+\log(x^b)=b\log(x)
+$$ $$
+\log(\Pi_{i=1}^n x_i)=\sum_{i=1}^n\log(x_i)
+$$
+
 ### Derivatives
 
 For this modules we need to understand the functional form of a
@@ -71,15 +83,49 @@ $\triangledown_x f(x)$, or $f'(x)$
 
 - Power rule
 
-Example:
+$$
+f(x)=ax^b
+$$ $$
+\frac{df(x)}{dx}=abx^{b-1}
+$$
+
+Example: $$
+f(x)=3x^2
+$$ $$
+\frac{df(x)}{dx}=2*3x=6x
+$$
 
 - Chain Rule
 
+$$
+f(x)=g(x)^b
+$$ $$
+\frac{df(x)}{dx}=bg(x)^{b-1}\frac{dg(x)}{dx}
+$$
+
 Example:
+
+$$
+f(x)=(4x+3)^2
+$$ $$
+\frac{df(x)}{dx}=2(4x+3)(4)=8(4x+3)
+$$
 
 - Derivative of a log
 
+$$
+f(x)=\log(g(x))
+$$ $$
+\frac{df(x)}{dx}=\frac{\frac{dg(x)}{dx}}{g(x)}
+$$
+
 Example:
+
+$$
+f(x)=log(x)
+$$ $$
+\frac{df(x)}{dx}=\frac{1}{x}
+$$
 
 ## What is a “Likelihood Function”?
 
@@ -120,6 +166,14 @@ that maximizes the likelihood of the parameter, given then sample
 $x_1,\ldots,x_n$.
 
 We define the log likelihood as:
+
+$$
+l(\theta)=\log(L(\theta|x_1,\ldots,x_n)),
+$$ $$
+=\log(\Pi_{i=1}^n f(x_i|\theta)),
+$$ $$
+=\sum_{i=1}^n \log(f(x_i|\theta)).
+$$
 
 The log likelihood is important because is often easier to solve for the
 maximum of the log likelihood rather than the likelihood itself. You’ll
@@ -168,6 +222,14 @@ $$
 $$ We then set the derivative equal to 0 and solve for $\theta$ to find
 the minimium.
 
+$$
+2(\theta+3)=0
+$$ $$
+\theta+3=0
+$$ $$
+\hat{\theta}=-3
+$$
+
 So we see that $\theta=-3$ is the minimizer (the $\theta$ that
 minimizes) $g(\theta)$.
 
@@ -196,8 +258,20 @@ $$
 
 Finally we define the log likelihood as
 
+$$
+l(\mu)=\sum_{i=1}^n\left(-\log(\sqrt{2\pi})-\frac{(x_i-\mu)^2}{2} \right)
+$$ $$
+= -n\log(\sqrt{2\pi})-\sum_{i=1}^n\frac{(x_i-\mu)^2}{2}
+$$
+
 Differentiating $l(\mu)$ with resepect to $\mu$ all parts that don’t
 contain $\mu$ drop off (they differentiate to 0). That means
+
+$$
+\frac{dl(\mu)}{d\mu}=-\sum_{i=1}^n\frac{-2(x_i-\mu)}{2}
+$$ $$
+= \sum_{i=1}^n(x_i-\mu).
+$$
 
 We then solve
 
@@ -233,6 +307,12 @@ $$
 
 From here we define the log likelihood as:
 
+$$
+l(p)=\sum_{i=1}^n\left(x_i\log(p)+(1-x_i)\log(1-p)\right),
+$$ $$
+=\log(p)\sum_{i=1}^nx_i+\log(1-p)\sum_{i=1}^n(1-x_i).
+$$
+
 Differentiating with respect to $p$ we get that
 
 $$
@@ -240,6 +320,16 @@ $$
 $$
 
 Setting equal to 0 and solving we have that
+
+$$
+(1-p)\sum_{i=1}^nx_i=p(n-\sum_{i=1}^nx_i)
+$$ $$
+\sum_{i=1}^nx_i-p\sum_{i=1}^nx_i=pn-p\sum_{i=1}^nx_i
+$$ $$
+\sum_{i=1}^nx_i=np
+$$ $$
+\hat{p}=\frac{\sum_{i=1}^nx_i}{n}
+$$
 
 ### Normal Example: Mean and Standard Deviation
 
@@ -258,7 +348,7 @@ case $\sigma^2$.
 Again define The pdf of the $N(\mu, \sigma^2)$ is :
 
 $$
-f(x|\mu,\sigma^2)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(\frac{(x-\mu)^2}{2\sigma^2}\right).  
+f(x|\mu,\sigma^2)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).  
 $$
 
 So we define the log of $f(x)$ is
@@ -277,6 +367,12 @@ The plan is to optimize with respect to $\mu$ and then plug the estimate
 in and then optimize with respect to $\sigma^2$.
 
 First let’s solve for $\mu$, treating $\sigma^2$ as a constant.
+
+$$
+\frac{dl(\mu,\sigma^2)}{d\mu}=-\sum_{i=1}^n\frac{-2(x_i-\mu)}{2\sigma^2}
+$$ $$
+= \frac{\sum_{i=1}^n(x_i-\mu)}{\sigma^2}
+$$
 
 Again we treat $\sigma^2$ as a constant so when seting this equal and
 solving for $\mu$ it turns into the $\mu$ only problem and we get
@@ -300,6 +396,12 @@ $$
 $$
 
 Solving for the minimum we get that
+
+$$
+\frac{-n}{2\sigma^2}+\frac{1}{2(\sigma^2)^2}\sum_{i=1}^n (x_i-\hat{\mu})^2=0
+$$ $$
+\frac{n}{2\sigma^2}=\frac{1}{2(\sigma^2)^2}\sum_{i=1}^n (x_i-\hat{\mu})^2.
+$$
 
 From there we obtain
 
@@ -335,8 +437,24 @@ $$
 We take the first derivative with respect to $\beta_0$ and set it equal
 to zero then we solve for $\hat{\beta}_0$.
 
+$$
+\frac{\delta l(\beta_0,\beta_1)}{\delta\beta_0}= \frac{2(\sum_{i=1}^n(y_i-\beta_0-\beta_1 x_i))}{2\sigma^2}
+$$ $$
+0=\sum_{i=1}^ny_i -n\beta_0-\beta_1\sum_{i=1}^nx_i
+$$ $$
+n\beta_0 = \sum_{i=1}^ny_i-\beta_1\sum_{i=1}^nx_i
+$$ $$
+\hat{\beta}_0=\bar{y}-\beta_1\bar{x}
+$$
+
 From there we plug in $\hat{\beta}_0$ to the likelihood and then solve
 for the slope.
+
+$$
+l(\hat{\beta}_0,\beta_1)=-n\log(\sqrt{2\pi\sigma^2})-\frac{\sum_{i=1}^n(y_i-\hat{\beta}_0-\beta_1 x_i)^2}{2\sigma^2}
+$$ $$
+=-n\log(\sqrt{2\pi\sigma^2})-\frac{\sum_{i=1}^n((y_i-\bar{y})-\beta_1 (x_i-\bar{x}))^2}{2\sigma^2}.
+$$
 
 Notice how I’ve grouped the terms $(y_i-\bar{y})$ and $(x_i-\bar{x})$,
 this becomes very important and we want to keep those terms together.
@@ -346,6 +464,12 @@ Taking the derivative with respsect to $\beta_1$ we get: $$
 $$
 
 To find the MLE we then set the derivate equal to zero and solve,
+
+$$
+\frac{-2\sum_{i=1}^n(x_i-\bar{x})((y_i-\bar{y})-(x_i-\bar{x}))}{2\sigma^2}=0
+$$ $$
+\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})-\beta_1\sum_{i=1}^n(x_i-\bar{x})^2=0
+$$
 
 This gives, $$
 \hat{\beta}_1=\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^n(x_i-\bar{x})^2}.
@@ -410,7 +534,13 @@ $\bar{x}$. We want figure out if $\bar{x}$ is unbiased. So above is the
 assumption on the data. So we know that $E(x_i)=\mu$, based on the above
 assumptions.
 
-So the expectation is,
+So the expectation is, $$
+E(\bar{x})=E(\frac{\sum_{i=1}^n x_i}{n})=\frac{1}{n}E(\sum_{i=1}^nx_i)
+$$ $$
+=\frac{1}{n}\sum_{i=1}^n E(x_i)\,\,\, \text{(by independence)}
+$$ $$
+= \frac{1}{n}n\mu=\mu.
+$$
 
 Since $E(\bar{x})=\mu$ we say that $\bar{x}$ is an unbiased estimator of
 $\mu$, since the $Bias(\bar{x})=0$.
@@ -420,6 +550,12 @@ The calculation for the binomial example is very similar.
 Let’s now look at the other Normal example, where we assume the data
 comes from a $N(\mu,\sigma^2)$. The mean is unbiased still but is the
 estimate of the variance unbiased? That’s what we need to look into now.
+
+$$
+E(\hat{\sigma^2})=E(\frac{1}{n}\sum_{i=1}^n (x_i-\bar{x})^2)
+$$ $$
+= \frac{1/n}E(\sum_{i=1}^n x_i^2+\bar{x}^2-2\bar{x}x_i).
+$$
 
 Let’s use a couple of facts $\bar{x}=\sum{i=1}^n x_i/n$.
 
@@ -444,6 +580,14 @@ what the $E(X^2)$ is.
 The other quantity we want to understand of an estimator is variance. We
 define the variance of a random variable as
 
+$$
+Var(X)=E\left((X-E(X))^2\right)
+$$ $$
+=E(X^2-2XE(X)+E(X)^2)
+$$ $$
+=E(X^2)-2E(XE(X))+E(X)^2
+$$
+
 Let’s discuss some properties of variances. Assume $X$ and $Y$ are
 independent random variables and that $a,b$ are constants.
 
@@ -458,6 +602,14 @@ independent draws from a $N(\mu,\sigma^2)$.
 By the assumption we know $$
 Var(X)=\sigma^2,
 $$ So let’s use that to our advantage to find $E(X^2)$.
+
+$$
+\sigma^2=E(X^2)-2E(XE(X))+E(X)^2
+$$ $$
+\sigma^2=E(X^2)-2\mu E(X)+\mu^2
+$$ $$
+E(X^2)=\sigma^2+\mu^2
+$$
 
 We know from intro statistics, that the CLT for the sample mean gives us
 $\bar{x}\sim N(\mu, \frac{\sigma^2}{n})$. That means
@@ -478,8 +630,24 @@ $$
 So let’s continue our example on claculating the bias of
 $\hat{\sigma}^2$.
 
+$$
+E(\hat{\sigma^2})=\frac{\sum_{i=1}^nE(x_i^2)}{n}-E(\bar{x}^2)
+$$ $$
+= \frac{n\sigma^2}{n}-\frac{\sigma^2}{n}
+$$ $$
+= \frac{(n-1)\sigma^2}{n}.
+$$
+
 So we can see it’s not an unbiased estimate of $\sigma^2$ . Let’s
 calculate the bias directly,
+
+$$
+Bias(\hat{\sigma^2})=E(\hat{\sigma^2})-\sigma^2
+$$ $$
+= \frac{(n-1)\sigma^2}{n}-\sigma^2
+$$ $$
+= \frac{-\sigma^2}{n}.
+$$
 
 The one thing to notice is that $\hat{\sigma^2}$ is not the estimate we
 normally use for $\sigma^2$. We use

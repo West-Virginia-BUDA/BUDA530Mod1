@@ -342,7 +342,7 @@ for the next in this case $\sigma^2$.
 Again define The pdf of the $N(\mu, \sigma^2)$ is :
 
 $$
-f(x|\mu,\sigma^2)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(\frac{(x-\mu)^2}{2\sigma^2}\right).  
+f(x|\mu,\sigma^2)=\frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right).  
 $$
 
 So we define the log of $f(x)$ is 
